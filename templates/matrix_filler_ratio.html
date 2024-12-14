@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+
+{% block title %}Home page{% endblock %}
+
+
+    
+{% block content %}
+<h1 style="color: #333;">Предсказание соотношения матрица-наполнитель</h1>
+
+<form id="predictionform">
+    <div class = "form-grid">
+        
+        <div>
+            <label>Модуль упругости при растяжении</label>
+            <input required name="tensile_modulus_of_elasticity" type="number" step="0.00001">
+        </div>
+
+        <div>
+            <label>Прочность при растяжении</label>
+            <input required name="tensile_strength" type="number" step="0.00001">
+        </div>
+
+        <button type="submit">Предсказать</button>
+    </div>
+</form>
+
+<div id="loadingScreen" style="display: none;">
+    <div class="loader">
+        
+    </div>
+</div>
+
+<div id="resultPopup" style="display: none;">
+    <div class="popup">
+        <div id="resultContainer"></div>
+        <button onclick="closePopup()">Закрыть</button>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block javascript %}
+<script>
+    
+        const form = document.getElementById("predictionform");
+        const resultPopup = document.getElementById("resultPopup");
+        const resutContainer = document.getElementById("resultContainer");
+        const loadingScreen = document.getElementById("loadingScreen");
+
+        
+
+        form.addEventListener("submit", async (e) => {
+            e.preventDefault();
+            loadingScreen.style.display = 'block';
+
+            const formData = new FormData(form);
+            const data = Object.fromEntries(formData.entries());
+
+            const response = await fetch('/predict/ratio', {
+                method: 'POST',
+                headers:{'Content-Type': 'application/x-www-form-urlencoded'},
+                body: new URLSearchParams(data)
+            });           
+            
+            const result =  await response.json();
+            
+            resutContainer.innerHTML = `
+            <p><strong>Соотношение матрица-наполнитель: </strong>${result.matrix_filler_ratio}</p>
+            `;
+            loadingScreen.style.display = 'none';
+            resultPopup.style.display = "block";
+
+            
+        });
+    
+
+    function closePopup() {
+        resultPopup.style.display = 'none';
+    }
+</script>
+{% endblock %}
