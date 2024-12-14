@@ -17,7 +17,7 @@ class final_props_predictor:
     
 class ratio_predictor:
     def __init__(self):
-        self.model_nn = tf.keras.models.load_model('')
+        self.model_nn = tf.keras.models.load_model('static/models/model_mf.keras')
         self.model_cat = CatBoostRegressor().load_model('static/models/cat_mf.bin')
         with open('static/models/matrix_filler_features_scaler.save','rb') as f:
             self.features_scaler = joblib.load(f)
