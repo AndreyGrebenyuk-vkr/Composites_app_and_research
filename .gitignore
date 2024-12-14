@@ -1,2 +1,4 @@
 /.venv
 /static/src/__pycache__
+/static/models
+.DS_Store
