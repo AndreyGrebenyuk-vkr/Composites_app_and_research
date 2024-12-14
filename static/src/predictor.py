@@ -24,5 +24,5 @@ class ratio_predictor:
     
     def get_prediction(self, _inputs):
         inputs = self.features_scaler.transform(_inputs)
-        prediction = self.model_cat.predict(self.model.predict(inputs))
+        prediction = self.model_cat.predict(self.model_nn.predict(inputs))
         return prediction

@@ -29,8 +29,8 @@ def get_predicted_props():
     predictions = model.get_prediction(input_features)
 
     response = jsonify({
-        'tensile_modulus_of_elasticity':predictions[0],
-        'tensile_strength': predictions[1]
+        'tensile_modulus_of_elasticity':str(predictions[0][0]),
+        'tensile_strength': str(predictions[0][1])
     })
 
     return response, 200, {'Content-Type': 'application/json'}
