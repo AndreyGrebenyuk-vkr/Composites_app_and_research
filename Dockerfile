@@ -6,6 +6,6 @@ RUN git clone https://github.com/AndreyGrebenyuk-vkr/composites_app_and_research
 WORKDIR /app/composites_app_and_research
 RUN git lfs pull
 RUN pip install --no-cache-dir -r requirements.txt
-
+EXPOSE 1000
 
 CMD ["python", "app.py"]
